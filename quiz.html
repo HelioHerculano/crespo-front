@@ -109,13 +109,7 @@
   <!-- Seção de descrição -->
   <div class="description-section mt-5">
     <h1 style="color: white; font-weight: bold;">Quiz sobre Saúde do Cabelo</h1>
-    <p>
-      Bem-vindo ao Quiz de Diagnóstico Capilar!
-      Este quiz foi cuidadosamente projetado para ajudá-lo a compreender e diagnosticar as condições do seu cabelo e
-      couro cabeludo.
-      Responda as perguntas com atenção e descubra informações valiosas para deixar seus cabelos mais saudáveis e
-      bonitos.
-    </p>
+
     <button id="startQuizBtn" class="btn" style="background-color: #dfa381;">Iniciar Quiz</button>
   </div>
 
@@ -186,6 +180,7 @@
         btn.textContent = question.options[index];
         btn.classList.remove("selected");
       });
+
 
       progressBar.style.width = ((currentQuestion + 1) / questions.length) * 100 + "%";
       selectedOption = null;
