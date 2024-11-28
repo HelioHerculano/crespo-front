@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,11 +13,14 @@
       color: white;
       font-family: Arial, sans-serif;
     }
-    .quiz-popup, .description-section {
+
+    .quiz-popup,
+    .description-section {
       background-color: #cd7e6d;
       border-radius: 10px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
     }
+
     .description-section {
       max-width: 600px;
       padding: 20px;
@@ -26,14 +30,17 @@
       position: relative;
       z-index: 1;
     }
+
     .description-section h1 {
       font-size: 2rem;
       color: #dfa381;
     }
+
     .description-section p {
       font-size: 1.2rem;
       margin-bottom: 20px;
     }
+
     .quiz-popup {
       position: fixed;
       top: 50%;
@@ -41,9 +48,11 @@
       transform: translate(-50%, -50%);
       padding: 20px;
       width: 600px;
-      display: none; /* Oculto inicialmente */
+      display: none;
+      /* Oculto inicialmente */
       z-index: 1050;
     }
+
     .quiz-popup .close-btn {
       position: absolute;
       top: 10px;
@@ -60,27 +69,33 @@
       justify-content: center;
       cursor: pointer;
     }
+
     .quiz-popup .progress-bar {
       background-color: #4caf50;
     }
+
     .option-btn.selected {
       background-color: #dfa381 !important;
       color: white !important;
     }
+
     .quiz-popup .category-title {
       font-size: 1.2rem;
       font-weight: bold;
       margin-bottom: 10px;
     }
+
     @media (max-width: 768px) {
       .quiz-popup {
         width: 90%;
         padding: 15px;
       }
+
       .description-section {
         padding: 15px;
         margin: 10px;
       }
+
       .quiz-popup .close-btn {
         top: 5px;
         right: 5px;
@@ -88,16 +103,13 @@
     }
   </style>
 </head>
+
 <body>
 
   <!-- Seção de descrição -->
   <div class="description-section mt-5">
     <h1 style="color: white; font-weight: bold;">Quiz sobre Saúde do Cabelo</h1>
-    <p>
-      Bem-vindo ao Quiz de Diagnóstico Capilar!
-      Este quiz foi cuidadosamente projetado para ajudá-lo a compreender e diagnosticar as condições do seu cabelo e couro cabeludo.
-      Responda as perguntas com atenção e descubra informações valiosas para deixar seus cabelos mais saudáveis e bonitos.
-    </p>
+
     <button id="startQuizBtn" class="btn" style="background-color: #dfa381;">Iniciar Quiz</button>
   </div>
 
@@ -114,8 +126,10 @@
       <div id="category-title" class="category-title">Categoria: Piyolho</div>
       <p id="question-text">O que são piyolhos?</p>
       <div class="d-grid gap-2">
-        <button class="btn btn-outline-light option-btn" onclick="selectOption(0, this)">Insetos que vivem no cabelo</button>
-        <button class="btn btn-outline-light option-btn" onclick="selectOption(1, this)">Pontos pretos no couro cabeludo</button>
+        <button class="btn btn-outline-light option-btn" onclick="selectOption(0, this)">Insetos que vivem no
+          cabelo</button>
+        <button class="btn btn-outline-light option-btn" onclick="selectOption(1, this)">Pontos pretos no couro
+          cabeludo</button>
         <button class="btn btn-outline-light option-btn" onclick="selectOption(2, this)">Caspa acumulada</button>
         <button class="btn btn-outline-light option-btn" onclick="selectOption(3, this)">Oleosidade excessiva</button>
       </div>
@@ -135,13 +149,13 @@
 
   <script>
     const questions = [
-    { category: "Piyolho", text: "O que são piyolhos?", options: ["Insetos que vivem no cabelo", "Pontos pretos no couro cabeludo", "Caspa acumulada", "Oleosidade excessiva"], correct: 0 },
-    { category: "Piyolho", text: "Como os piyolhos se espalham?", options: ["Por ar", "Por contato próximo", "Pelo consumo de água", "Por objetos cortantes"], correct: 1 },
-    { category: "Piyolho", text: "Qual é o principal sintoma de piyolho?", options: ["Coceira intensa", "Perda de cabelo", "Secura no couro cabeludo", "Oleosidade"], correct: 0 },
-    { category: "Piyolho", text: "Como remover piyolhos?", options: ["Lavar com água", "Usar pentes finos e produtos específicos", "Deixar o cabelo secar ao sol", "Apenas cortar o cabelo"], correct: 1 },
-    { category: "Saúde Capilar", text: "Qual a importância do shampoo na higiene capilar?", options: ["Retirar oleosidade", "Estimular crescimento", "Colorir os cabelos", "Proteger do sol"], correct: 0 },
-    { category: "Saúde Capilar", text: "Qual o efeito do uso excessivo de calor nos cabelos?", options: ["Fortalece os fios", "Resseca e quebra os fios", "Deixa mais brilhoso", "Ajuda no crescimento"], correct: 1 }
-  ];
+      { category: "Piyolho", text: "O que são piyolhos?", options: ["Insetos que vivem no cabelo", "Pontos pretos no couro cabeludo", "Caspa acumulada", "Oleosidade excessiva"], correct: 0 },
+      { category: "Piyolho", text: "Como os piyolhos se espalham?", options: ["Por ar", "Por contato próximo", "Pelo consumo de água", "Por objetos cortantes"], correct: 1 },
+      { category: "Piyolho", text: "Qual é o principal sintoma de piyolho?", options: ["Coceira intensa", "Perda de cabelo", "Secura no couro cabeludo", "Oleosidade"], correct: 0 },
+      { category: "Piyolho", text: "Como remover piyolhos?", options: ["Lavar com água", "Usar pentes finos e produtos específicos", "Deixar o cabelo secar ao sol", "Apenas cortar o cabelo"], correct: 1 },
+      { category: "Saúde Capilar", text: "Qual a importância do shampoo na higiene capilar?", options: ["Retirar oleosidade", "Estimular crescimento", "Colorir os cabelos", "Proteger do sol"], correct: 0 },
+      { category: "Saúde Capilar", text: "Qual o efeito do uso excessivo de calor nos cabelos?", options: ["Fortalece os fios", "Resseca e quebra os fios", "Deixa mais brilhoso", "Ajuda no crescimento"], correct: 1 }
+    ];
 
     let currentQuestion = 0;
     let selectedOption = null;
@@ -166,6 +180,7 @@
         btn.textContent = question.options[index];
         btn.classList.remove("selected");
       });
+
 
       progressBar.style.width = ((currentQuestion + 1) / questions.length) * 100 + "%";
       selectedOption = null;
@@ -215,16 +230,17 @@
 
     function openQuiz() {
       quizPopup.style.display = 'block';
-      document.body.style.overflow = 'hidden'; // Impede a rolagem do fundo
+      document.body.style.overflow = 'hidden';
       loadQuestion();
     }
 
     function closeQuiz() {
       quizPopup.style.display = 'none';
-      document.body.style.overflow = 'auto'; // Restaura a rolagem
+      document.body.style.overflow = 'auto';
     }
 
     startQuizBtn.addEventListener('click', openQuiz);
   </script>
 </body>
+
 </html>
