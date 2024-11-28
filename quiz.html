@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz sobre Cabelo</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #343a40;
+      color: white;
+    }
+    .quiz-popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #c37463;
+      padding: 20px;
+      border-radius: 8px;
+      width: 600px;
+      z-index: 1050;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+      display: none; /* Oculto inicialmente */
+    }
+    .quiz-popup .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: transparent;
+      border: none;
+      font-size: 1.5rem;
+      color: white;
+      cursor: pointer;
+    }
+    .quiz-popup .progress-bar {
+      background-color: #4caf50;
+    }
+    .option-btn.selected {
+      background-color: #4caf50 !important;
+      color: white !important;
+    }
+    .quiz-popup .category-title {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Botão para abrir o Quiz -->
+  <div class="d-flex justify-content-center align-items-center vh-100">
+    <button id="startQuizBtn" class="btn btn-primary">Iniciar Quiz</button>
+  </div>
+
+  <!-- Pop-up do Quiz -->
+  <div id="quizPopup" class="quiz-popup">
+    <button class="close-btn" onclick="closeQuiz()">×</button>
+    <div>
+      <h4 id="question-title">Questão 1</h4>
+      <div class="progress quiz-progress mb-3">
+        <div class="progress-bar" id="progress-bar" role="progressbar" style="width: 0%;"></div>
+      </div>
+    </div>
+    <div>
+      <div id="category-title" class="category-title">Categoria: Piyolho</div>
+      <p id="question-text">O que são piyolhos?</p>
+      <div class="d-grid gap-2">
+        <button class="btn btn-outline-light option-btn" onclick="selectOption(0, this)">Insetos que vivem no cabelo</button>
+        <button class="btn btn-outline-light option-btn" onclick="selectOption(1, this)">Pontos pretos no couro cabeludo</button>
+        <button class="btn btn-outline-light option-btn" onclick="selectOption(2, this)">Caspa acumulada</button>
+        <button class="btn btn-outline-light option-btn" onclick="selectOption(3, this)">Oleosidade excessiva</button>
+      </div>
+    </div>
+    <div class="d-flex justify-content-between mt-4">
+      <button class="btn btn-secondary" id="prev-btn" onclick="prevQuestion()">Anterior</button>
+      <button class="btn btn-primary" id="next-btn" onclick="nextQuestion()">Próxima</button>
+    </div>
+    <div class="d-flex justify-content-center mt-4">
+      <button class="btn btn-success" id="submit-btn" onclick="submitQuiz()">Submeter</button>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <script>
+    const questions = [
+      { category: "Piyolho", text: "O que são piyolhos?", options: ["Insetos que vivem no cabelo", "Pontos pretos no couro cabeludo", "Caspa acumulada", "Oleosidade excessiva"], correct: 0 },
+      { category: "Piyolho", text: "Como os piyolhos se espalham?", options: ["Por ar", "Por contato próximo", "Pelo consumo de água", "Por objetos cortantes"], correct: 1 },
+      { category: "Piyolho", text: "Qual é o principal sintoma de piyolho?", options: ["Coceira intensa", "Perda de cabelo", "Secura no couro cabeludo", "Oleosidade"], correct: 0 },
+      { category: "Piyolho", text: "Como remover piyolhos?", options: ["Lavar com água", "Usar pentes finos e produtos específicos", "Deixar o cabelo secar ao sol", "Apenas cortar o cabelo"], correct: 1 },
+      { category: "Óleo", text: "O que causa oleosidade no cabelo?", options: ["Uso de shampoo", "Produção excessiva de sebo", "Falta de vitaminas", "Poluição"], correct: 1 },
+      { category: "Óleo", text: "Qual é o impacto de lavar o cabelo com muita frequência?", options: ["Aumenta a oleosidade", "Reduz a oleosidade", "Desaparece o brilho", "Deixa os fios mais fortes"], correct: 0 }
+    ];
+
+    let currentQuestion = 0;
+    let selectedOption = null;
+
+    const quizPopup = document.getElementById('quizPopup');
+    const startQuizBtn = document.getElementById('startQuizBtn');
+
+    function loadQuestion() {
+      const questionTitle = document.getElementById("question-title");
+      const questionText = document.getElementById("question-text");
+      const categoryTitle = document.getElementById("category-title");
+      const optionButtons = document.querySelectorAll(".option-btn");
+      const progressBar = document.getElementById("progress-bar");
+
+      const question = questions[currentQuestion];
+
+      questionTitle.textContent = `Questão ${currentQuestion + 1}`;
+      categoryTitle.textContent = `Categoria: ${question.category}`;
+      questionText.textContent = question.text;
+
+      optionButtons.forEach((btn, index) => {
+        btn.textContent = question.options[index];
+        btn.classList.remove("selected");
+      });
+
+      progressBar.style.width = ((currentQuestion + 1) / questions.length) * 100 + "%";
+      selectedOption = null;
+
+      toggleNavButtons();
+    }
+
+    function selectOption(index, button) {
+      if (selectedOption !== null) {
+        document.querySelectorAll(".option-btn")[selectedOption].classList.remove("selected");
+      }
+      selectedOption = index;
+      button.classList.add("selected");
+    }
+
+    function nextQuestion() {
+      if (currentQuestion < questions.length - 1) {
+        currentQuestion++;
+        loadQuestion();
+      }
+    }
+
+    function prevQuestion() {
+      if (currentQuestion > 0) {
+        currentQuestion--;
+        loadQuestion();
+      }
+    }
+
+    function toggleNavButtons() {
+      document.getElementById("prev-btn").style.display = currentQuestion === 0 ? "none" : "block";
+      document.getElementById("next-btn").style.display = currentQuestion === questions.length - 1 ? "none" : "block";
+      document.getElementById("submit-btn").style.display = currentQuestion === questions.length - 1 ? "block" : "none";
+    }
+
+    function submitQuiz() {
+        Swal.fire({
+        title: 'Submetido com sucesso!',
+        text: 'Obrigado por completar o quiz.',
+        icon: 'success',
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#4caf50'
+      }).then(() => {
+        closeQuiz();
+      });
+    }
+
+    function openQuiz() {
+      quizPopup.style.display = 'block';
+      loadQuestion();
+    }
+
+    function closeQuiz() {
+      quizPopup.style.display = 'none';
+    }
+
+    startQuizBtn.addEventListener('click', openQuiz);
+
+    // Inicializar a navegação de perguntas
+    toggleNavButtons();
+  </script>
+</body>
+</html>
